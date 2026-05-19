@@ -2,6 +2,7 @@ package gormongo
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"time"
 
@@ -11,16 +12,21 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+type ObjectID primitive.ObjectID
+
 type Model struct {
-	ID        primitive.ObjectID `bson:"_id,omitempty" json:"_id"`
-	CreatedAt time.Time          `bson:"created_at" json:"created_at"`
-	UpdatedAt time.Time          `bson:"updated_at" json:"updated_at"`
+	ID        ObjectID  `bson:"_id,omitempty" json:"_id"`
+	CreatedAt time.Time `bson:"created_at" json:"created_at"`
+	UpdatedAt time.Time `bson:"updated_at" json:"updated_at"`
 
 	ctx            context.Context
 	db             *mongo.Database
 	collectionName string
 }
 
+func (id ObjectID) MarshalJSON() ([]byte, error) {
+	return json.Marshal(primitive.ObjectID(id).Hex())
+}
 func (m *Model) Init(ctx context.Context, db *mongo.Database, collection string) {
 	m.ctx = ctx
 	m.db = db
