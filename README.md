@@ -65,10 +65,11 @@ func main() {
 	registry := gormongo.NewRegistry(context.Background(), db)
 	registry.Register("comments", &models.Commentschema{}, "comments")
 
+	app := gormongo.NewApp(registry)
+	
  	app.Router.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{"message": "pong"})
 	})
-	app := gormongo.NewApp(registry)
 	app.Run(":3000")
 }
 ```
