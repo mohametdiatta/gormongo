@@ -111,7 +111,7 @@ var Comment = &gormongo.Model{}
 ```go
 data := User{
     Name:  "Mohamet",
-    Email: "mohamet@example.com",
+    Email: "mohametb@example.com",
 }
 
 _, err := userModel.Create( user)
